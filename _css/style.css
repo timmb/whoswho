@@ -57,3 +57,14 @@ body {
       background-color: blue;
       height: 100px;
       width: 100px; }
+    .profile_info .profile_info_tr .info {
+      padding: 10px; }
+
+.score_info {
+  text-align: center; }
+
+.conn_incorrect {
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px; }

@@ -63,9 +63,20 @@ body {
 			height: 100px;
 			width: 100px;
 		}
+		.info{
+			padding: 10px;
+		}
 	}
 }
-
+.score_info{
+	text-align: center;
+}
+.conn_incorrect{
+	color: red;
+	text-align: center;
+	font-size: 16px;
+	padding: 10px;
+}
 
 @media only screen and (max-width: 730px){
 	

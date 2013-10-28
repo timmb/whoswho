@@ -28,7 +28,7 @@ console.log("page load");
 // label-bad-password
 // signin_page
 // link-sign-in
-// page-home (main profile page)
+// profile (main profile page)
 // link-sign-up
 // page-sign-up
 // input-heard-phrase
@@ -42,18 +42,40 @@ console.log("page load");
 // page-potential <-- notification page
 // button-create-potential
 
-function createUser(name, description, photo, secretPhrase, password)
+var elements = [
+	'signin_page',
+	'profile',
+	'conn_correct',
+];
+
+
+function show(element_id)
+{
+	for (var i=0; i<elements.length; i++)
+		$('#'+elements[i]).hide();
+	$('#'+element_id).show();
+	console.log("showed "+element_id);
+	$('#secret_phrase').hide();
+	$('#bad_password').hide();
+}
+
+
+function createUser(name, physicalTrait, personalTrait, photo, secretPhrase, password)
 {
 	var user = {
 		'name':name,
-		'description':description,
+		'physicalTrait':physicalTrait,
+		'personalTrait':personalTrait,
 		'photo':photo,
 		'secretPhrase':secretPhrase,
 		'password':password,
+		'score':0
 	};
+	console.log('new user');
+	console.log(user);
 	gUsers.push(user);
 }
-createUser('Colonel Mustard', "Six foot short hair. Likes talking bollocks", '', 'The cuckoo flies high', 'password');
+createUser('Colonel Mustard', "Six foot short hair.", "Likes talking bollocks", '', 'The cuckoo flies high', 'password');
 
 
 function createPotentialConnections()
@@ -73,8 +95,7 @@ function createPotentialConnections()
 		'targetUsers': targets,
 	};
 	gPotentialConnections.push(p);
-	$('#page-home').hide();
-	$('#page-potential').show();
+	show('page-potential');
 }
 $('#button-create-potential').click(createPotentialConnections);
 
@@ -83,9 +104,9 @@ function linkSignIn()
 {
 	console.log("linksignin");
 	var login = $('#input-login').val();
-// return;
 	var password = $('#input-password').val();
-		var gCurrentUser = null;
+	var gCurrentUser = null;
+	console.log('entered login and password '+login+' '+password);
 	for (var i=0; i<gUsers.length; i++)
 	{
 		if (gUsers[i].name == login && gUsers[i].password == password)
@@ -97,13 +118,19 @@ function linkSignIn()
 	}
 	if (gCurrentUser == null)
 	{
-		$('#label-bad-password').show();
+		console.log('signin failed');
+		show('label-bad-password');
 	}
 	else
 	{
+		console.log('signin successful');
 		$('#label-bad-password').hide();
-		$('#signin_page').hide();
-		$('#page-home').show();
+		// populate home page
+		$('#text_name').html(gCurrentUser.name);
+		$('#text_physical_trait').html(gCurrentUser.physicalTrait);
+		$('#text_personal_trait').html(gCurrentUser.personalTrait);
+		$('#text_phrase').html(gCurrentUser.secretPhrase);
+		show('profile');
 	}
 }
 
@@ -156,6 +183,8 @@ function enterSecretPhrase()
 	}
 	if (matchedUser != null)
 	{
+		gCurrentUser.score += 1;
+		matchedUser +=1;
 		connection = {
 			'datetime': gettime(), 
 			'location': null, 
@@ -165,8 +194,7 @@ function enterSecretPhrase()
 			'story': '', 
 		};
 		gConnections.push(connection);
-		$('#page-home').hide();
-		$('#page-congrats').show();
+		show('page-congrats');
 	}
 	else
 	{
@@ -191,22 +219,26 @@ $('#input-story').change(editStory);
 
 function buttonCongratsDone()
 {
-	$('#page-congrats').hide();
-	$('#page-home').show();
+	show('profile');
 }
 $('#button-congrats-done').click(buttonCongratsDone);
 
 
 function buttonHistory()
 {
-	$('#page-home').hide();
-	$('#page-history').show();
+	show('page-history');
 }
 $('#button-history').click(buttonHistory);
 
-// });
+var hidden = ['profile','conn_correct','secret_phrase'];
 
-// $(document).ready(function() {
-	$('#link-sign-in').on('click', function(e) {linkSignIn(); });
+for (var i=0; i<hidden.length; i++)
+{
+	$('#'+hidden[i]).hide();
+}
+
+
+
+	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
 	console.log('asd'); 
 });

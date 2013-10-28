@@ -33,6 +33,11 @@ var gCurrentUser = null;
 // label-bad-secret-phrase
 // button-enter-secret-phrase
 // input-story
+// button-congrats-done
+// button-history
+// page-history
+// page-potential <-- notification page
+// button-create-potential
 
 function createUser(name, description, photo, secretPhrase)
 {
@@ -45,6 +50,29 @@ function createUser(name, description, photo, secretPhrase)
 	};
 	gUsers.push(user);
 }
+
+
+function createPotentialConnections()
+{
+	// creates potential connection with notification for current user
+	targets = [];
+	for (var i=0; i<gUsers.length; i++)
+	{
+		if (gUsers[i] != gCurrentUser && Math.random() < 0.7)
+		{
+			targets.push(gUsers[i]);
+		}
+	}
+	p = {
+		'datetime': getTime(),
+		'notifiedUser': gCurrentUser,
+		'targetUsers': targets,
+	};
+	gPotentialConnections.push(p);
+	$['#page-home'].hide();
+	$['#page-potential'].show();
+}
+$['#button-create-potential'].click(createPotentialConnections);
 
 
 function linkSignIn()
@@ -137,9 +165,13 @@ function enterSecretPhrase()
 	else
 	{
 		$['#label-bad-secret-phrase'].show();
+		setTimeout(function() {
+			$['#label-bad-secret-phrase'].hide();
+		}, 2000);
 	}
 }
 $['#button-enter-secret-phrase'].click(enterSecretPhrase);
+
 
 // for congrats page
 function editStory()
@@ -149,3 +181,19 @@ function editStory()
 	connections[connections.length-1].story = $['#input-story'].val();
 }
 $['#input-story'].change(editStory);
+
+
+function buttonCongratsDone()
+{
+	$['#page-congrats'].hide();
+	$['#page-home'].show();
+}
+$['#button-congrats-done'].click(buttonCongratsDone);
+
+
+function buttonHistory()
+{
+	$['#page-home'].hide();
+	$['#page-history'].show();
+}
+$['#button-history'].click(buttonHistory);

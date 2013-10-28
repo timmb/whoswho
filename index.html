@@ -23,27 +23,41 @@
 						<div class ="profile_info_tb avatar">
 						</div>
 						<div class ="profile_info_tb info">
-							<div class="secret_name">
+							<div class="secret_name">Secret Name:
 							</div> 
-							<div class="physical_trait">
+							<div class="physical_trait"> Physical Trait:
 							</div>
-							<div class="personal_trait">
+							<div class="personal_trait"> Personal Trait:
 							</div>
-							<div class="phase">
+							<div class="phrase"> My Secret Phrase:
 							</div> 
 						</div>
 					</div>
 				</div>
-				<div class = "secret_phase">
+				<div class = "score_info">
+					<h2>Current Score : <span class="current_score">8</span></h2>
 				</div>
-				<div id ="conn_incorrect">
+				<div class = "phrase_found">
+					 <button class="btn btn-lg btn-primary btn-block" type="submit">Found a Phrase</button>
 				</div>
-				<div class = "connection history">
+				<div class = "secret_phrase">
+					 <form class="form-signin">
+				        <h2 class="form-signin-heading">What secret phrase have you found?</h2>
+				        <input type="text" class="form-control" placeholder="" autofocus="">
+				        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+				      </form>
+				      <div class ="conn_incorrect">Sorry invalid phrase</div>
+				</div>
+				<div class = "connection_history">
 					 <button class="btn btn-lg btn-primary btn-block" type="submit">My Connections</button>
+				</div>
+				<div class = "connections">
 				</div>
 			</div>
 		</div>
-		<div id ="conn_correct">
+		<div class ="conn_correct">
+			<div class="container">
+			</div>
 		</div>
 	</body>
 </html>

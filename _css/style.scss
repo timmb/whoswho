@@ -1,0 +1,72 @@
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.428571429;
+	color: #333;
+}
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#signin_page, #profile, #conn_incorrect, #conn_correct{
+	
+	max-width: 330px;
+	height: 100%;
+}
+#signin_page{
+	display: block;	
+}
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	.form-signin-heading{
+		text-align: center;
+	}
+	.form-control{
+		position: relative;
+		font-size: 16px;
+		height: auto;
+		width: 100%;
+		padding: 10px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+}
+.btn-block {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0;
+}
+.btn-lg {
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 6px;
+}
+.profile_info{
+	display: table;
+	width: 100%;
+	.profile_info_tr{
+		display: table-row;
+		width: 100%;
+		.profile_info_tb{
+			display: table-cell;
+		}
+		.avatar{
+			background-color: blue;
+			height: 100px;
+			width: 100px;
+		}
+	}
+}
+
+
+@media only screen and (max-width: 730px){
+	
+}

@@ -1,3 +1,5 @@
+$(document).ready( function() {
+
 var gUsers = [
 //	'Caroline',
 //	'Imeh',
@@ -17,13 +19,14 @@ var gPotentialConnections =
 
 var gCurrentUser = null;
 
+console.log("page load");
 
 
 // css ids:
 // input-login
 // input-password
 // label-bad-password
-// page-login
+// signin_page
 // link-sign-in
 // page-home (main profile page)
 // link-sign-up
@@ -39,7 +42,7 @@ var gCurrentUser = null;
 // page-potential <-- notification page
 // button-create-potential
 
-function createUser(name, description, photo, secretPhrase)
+function createUser(name, description, photo, secretPhrase, password)
 {
 	var user = {
 		'name':name,
@@ -50,6 +53,7 @@ function createUser(name, description, photo, secretPhrase)
 	};
 	gUsers.push(user);
 }
+createUser('Colonel Mustard', "Six foot short hair. Likes talking bollocks", '', 'The cuckoo flies high', 'password');
 
 
 function createPotentialConnections()
@@ -69,50 +73,52 @@ function createPotentialConnections()
 		'targetUsers': targets,
 	};
 	gPotentialConnections.push(p);
-	$['#page-home'].hide();
-	$['#page-potential'].show();
+	$('#page-home').hide();
+	$('#page-potential').show();
 }
-$['#button-create-potential'].click(createPotentialConnections);
+$('#button-create-potential').click(createPotentialConnections);
 
 
 function linkSignIn()
 {
-	var login = $['#input-login'].val();
-	var password = $['#input-password'].val();
-	var gCurrentUser = null;
+	console.log("linksignin");
+	var login = $('#input-login').val();
+// return;
+	var password = $('#input-password').val();
+		var gCurrentUser = null;
 	for (var i=0; i<gUsers.length; i++)
 	{
 		if (gUsers[i].name == login && gUsers[i].password == password)
 		{
 			gCurrentUser = gUsers[i];
+			console.log('successful sign in');
 			break;
 		}
 	}
 	if (gCurrentUser == null)
 	{
-		$['#label-bad-password'].show();
+		$('#label-bad-password').show();
 	}
 	else
 	{
-		$['#label-bad-password'].hide();
-		$['#page-login'].hide();
-		$['#page-home'].show();
+		$('#label-bad-password').hide();
+		$('#signin_page').hide();
+		$('#page-home').show();
 	}
 }
-$['#link-sign-in'].click(linkSignIn);
 
 
 function linkSignUp()
 {
-	$['#page-login'].hide();
-	$['#page-sign-up'].show();
+	$('#signin_page').hide();
+	$('#page-sign-up').show();
 }
-$['#link-sign-up'].click(linkSignUp);
+$('#link-sign-up').click(linkSignUp);
 
 
 function enterSecretPhrase()
 {
-	var heardPhrase = $['#input-heard-phrase'].val();
+	var heardPhrase = $('#input-heard-phrase').val();
 	var actualPhrase = null;
 	var matchedUser = null;
 
@@ -159,18 +165,18 @@ function enterSecretPhrase()
 			'story': '', 
 		};
 		gConnections.push(connection);
-		$['#page-home'].hide();
-		$['#page-congrats'].show();
+		$('#page-home').hide();
+		$('#page-congrats').show();
 	}
 	else
 	{
-		$['#label-bad-secret-phrase'].show();
+		$('#label-bad-secret-phrase').show();
 		setTimeout(function() {
-			$['#label-bad-secret-phrase'].hide();
+			$('#label-bad-secret-phrase').hide();
 		}, 2000);
 	}
 }
-$['#button-enter-secret-phrase'].click(enterSecretPhrase);
+$('#button-enter-secret-phrase').click(enterSecretPhrase);
 
 
 // for congrats page
@@ -178,22 +184,29 @@ function editStory()
 {
 	if (connections.length==0)
 		return;
-	connections[connections.length-1].story = $['#input-story'].val();
+	connections[connections.length-1].story = $('#input-story').val();
 }
-$['#input-story'].change(editStory);
+$('#input-story').change(editStory);
 
 
 function buttonCongratsDone()
 {
-	$['#page-congrats'].hide();
-	$['#page-home'].show();
+	$('#page-congrats').hide();
+	$('#page-home').show();
 }
-$['#button-congrats-done'].click(buttonCongratsDone);
+$('#button-congrats-done').click(buttonCongratsDone);
 
 
 function buttonHistory()
 {
-	$['#page-home'].hide();
-	$['#page-history'].show();
+	$('#page-home').hide();
+	$('#page-history').show();
 }
-$['#button-history'].click(buttonHistory);
+$('#button-history').click(buttonHistory);
+
+// });
+
+// $(document).ready(function() {
+	$('#link-sign-in').on('click', function(e) {linkSignIn(); });
+	console.log('asd'); 
+});

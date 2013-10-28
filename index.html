@@ -8,12 +8,12 @@
 	<body>
 		<div id ="signin_page">
 			<div class="container">
-		      <form class="form-signin">
+		      <!-- <form class="form-signin"> -->
 		        <h2 class="form-signin-heading">Who's Who Login</h2>
-		        <input type="text" class="form-control" placeholder="Secret Name" autofocus="">
-		        <input type="password" class="form-control" placeholder="Password">
-		        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-		      </form>
+		        <input id="input-login" type="text" class="form-control" placeholder="Secret Name" autofocus="">
+		        <input id="input-password" type="password" class="form-control" placeholder="Password">
+		        <button id="link-sign-in" class="btn btn-lg btn-primary btn-block"  >Sign in</button>
+		      <!-- </form> -->
 		    </div>
 		</div>
 		<div id = "profile">
@@ -39,11 +39,14 @@
 				<div id ="conn_incorrect">
 				</div>
 				<div class = "connection history">
-					 <button class="btn btn-lg btn-primary btn-block" type="submit">My Connections</button>
+					 <button class="btn btn-lg btn-primary btn-block">My Connections</button>
 				</div>
 			</div>
 		</div>
 		<div id ="conn_correct">
 		</div>
+
+		<script src="_js/jquery-2.0.3.js"></script>
+		<script src="_js/script.js"></script>
 	</body>
 </html>

@@ -68,3 +68,9 @@ body {
   text-align: center;
   font-size: 16px;
   padding: 10px; }
+
+#profile, .secret_phrase, .conn_incorrect {
+  display: none; }
+
+.btn-container {
+  padding-bottom: 5px; }

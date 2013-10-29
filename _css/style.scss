@@ -12,7 +12,6 @@ body {
 	margin-left: auto;
 }
 #signin_page, #profile, #conn_incorrect, #conn_correct{
-	
 	max-width: 330px;
 	height: 100%;
 }
@@ -76,6 +75,12 @@ body {
 	text-align: center;
 	font-size: 16px;
 	padding: 10px;
+}
+#profile,.secret_phrase, .conn_incorrect{
+	display: none;
+}
+.btn-container{
+	padding-bottom: 5px;
 }
 
 @media only screen and (max-width: 730px){

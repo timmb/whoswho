@@ -142,7 +142,6 @@ function linkSignUp()
 }
 $('#link-sign-up').click(linkSignUp);
 
-
 function enterSecretPhrase()
 {
 	var heardPhrase = $('#input-heard-phrase').val();
@@ -204,7 +203,7 @@ function enterSecretPhrase()
 		}, 2000);
 	}
 }
-$('#button-enter-secret-phrase').click(enterSecretPhrase);
+
 
 
 // for congrats page
@@ -238,7 +237,12 @@ for (var i=0; i<hidden.length; i++)
 }
 
 
-
+	
 	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
+	$('#link-phrase_found').on('click', function(e){
+		$('.phrase_found').hide();
+		$('.secret_phrase').show();
+	});
+	$('#btn-enter-secret-phrase').on('click', function(e){enterSecretPhrase();});
 	console.log('asd'); 
 });

@@ -37,18 +37,18 @@
 				<div class = "score_info">
 					<h2>Current Score : <span class="current_score">8</span></h2>
 				</div>
-				<div class = "phrase_found">
-					 <button class="btn btn-lg btn-primary btn-block" type="submit">Found a Phrase</button>
+				<div class = "btn-container phrase_found">
+					 <button id='link-phrase_found' class="btn btn-lg btn-primary btn-block" type="submit">Found a Phrase</button>
 				</div>
 				<div class = "secret_phrase">
 					 <form class="form-signin">
 				        <h2 class="form-signin-heading">What secret phrase have you found?</h2>
-				        <input type="text" class="form-control" placeholder="" autofocus="">
-				        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+				        <input id="input-heard-phrase" type="text" class="form-control" placeholder="" autofocus="">
+				        <button id="btn-enter-secret-phrase" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 				      </form>
 				      <div class ="conn_incorrect">Sorry invalid phrase</div>
 				</div>
-				<div class = "connection_history">
+				<div class = "btn-container connection_history">
 					 <button class="btn btn-lg btn-primary btn-block" type="submit">My Connections</button>
 				</div>
 				<div class = "connections">

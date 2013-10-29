@@ -11,7 +11,7 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 }
-#signin_page, #profile, #conn_incorrect, #conn_correct{
+#signin_page, #profile, #conn_incorrect, #page_congrats{
 	max-width: 330px;
 	height: 100%;
 }
@@ -82,7 +82,11 @@ body {
 .btn-container{
 	padding-bottom: 5px;
 }
-
+#page_congrats{
+	h2{
+		text-align: center;
+	}
+}
 @media only screen and (max-width: 730px){
 	
 }

@@ -1,5 +1,3 @@
-$(document).ready( function() {
-
 var gUsers = [
 //	'Caroline',
 //	'Imeh',
@@ -18,6 +16,12 @@ var gPotentialConnections =
 ];
 
 var gCurrentUser = null;
+
+var gLastConnectionMade = null;
+
+
+$(document).ready( function() {
+
 
 console.log("page load");
 
@@ -60,10 +64,48 @@ function show(element_id)
 	{
 		updateProfileElements();
 	}
+	if (element_id=="page_history")
+	{
+		updateHistoryPage();
+	}
+	if (element_id=="profile")
+	{
+		$('#secret_phrase').hide();
+		$('#phrase_found').show();
+	}
 	$('#'+element_id).show();
 	console.log("showed "+element_id);
-	$('#secret_phrase').hide();
+
 	$('#label-bad-password').hide();
+}
+
+
+function createConnectionHtml(connection, isStoryEditable)
+{
+	var u = connection.secondUser;
+	console.log('create connections for user:');
+	console.log(u);
+	var html = '\
+	<div class="connection">\
+		<img class="avatar" src="'+u.photo+'"/>\
+		<p class="name">'+u.name+'</p>\
+		<p class="phrase">'+u.secretPhrase+'</p>\
+';
+	if (isStoryEditable)
+	{
+		html += '\
+	<textarea class="connection_story_editor" id="connection_story_editor" placeholder="Describe how you met '+u.name+'"></textarea>\
+		';
+	}
+	else
+	{
+		html += '\
+		<p class="story">'+connection.story+'</p>\
+		';
+	}
+	html += '</div>';
+	return html;
+
 }
 
 
@@ -86,14 +128,35 @@ createUser('Colonel Mustard', "Six foot short hair.", "Likes talking bollocks", 
 createUser('Professor plum', "purple jumper", "enjoys fruit", '', 'I like crumble', 'password');
 
 
+// returns whether we have previously connected with a user
+function havePreviouslyConnectedWith(user)
+{
+	for (var i=0; i<gConnections.length; i++)
+	{
+		if (gConnections.firstUser==user || gConnections.secondUser==user)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+
 function createPotentialConnections()
 {
+	gPotentialConnections = [];
 	// creates potential connection with notification for current user
 	targets = [];
 	for (var i=0; i<gUsers.length; i++)
 	{
-		if (gUsers[i] != gCurrentUser && Math.random() < 0.7)
+		if (gUsers[i] != gCurrentUser // cant connect with yourself
+			&& !havePreviouslyConnectedWith(gUsers[i]) // cant connect twice
+			&& Math.random() < 0.7 // a bit of chance
+			)
 		{
+			console.log('have previously connected '+havePreviouslyConnectedWith(gUsers[i]));
+			console.log('user '+i);
+			console.log(gUsers[i]);
 			p = {
 				'datetime': (new Date()).getTime(),
 				'notifiedUser': gCurrentUser,
@@ -260,7 +323,11 @@ function enterSecretPhrase()
 		updateMyPotentialConnections();
 		// update congrats page
 		$('#the_connection').html(createConnectionHtml(connection, true));
-		$('#connect_story_editor').change(function() { connection.story = $('#connection_story_editor').val();});
+		gLastConnectionMade = connection;
+		$('#link_congrats_back').click( function(e) {
+			gLastConnectionMade.story = $('#connection_story_editor').val();
+			show('profile');
+		})
 		show('page_congrats');
 	}
 	else
@@ -273,51 +340,17 @@ function enterSecretPhrase()
 }
 
 
-function createConnectionHtml(connection, isStoryEditable)
+
+
+function updateHistoryPage()
 {
-	var u = connection.secondUser;
-	console.log('create connections for user:');
-	console.log(u);
-	var html = '\
-	<div class="connection">\
-		<img class="avatar" src="'+u.photo+'"/>\
-		<p class="name">'+u.name+'</p>\
-		<p class="phrase">'+u.secretPhrase+'</p>\
-';
-	if (isStoryEditable)
+	var html = '';
+	for (var i=0; i<gConnections.length; i++)
 	{
-		html += '\
-	<textarea class="connection_story_editor" id="connection_story_editor" placeholder="Describe how you met '+u.name+'"></textarea>\
-		';
+		html += createConnectionHtml(gConnections[i], false);
 	}
-	else
-	{
-		html += '\
-		<p class="story">'+connection.story+'</p>\
-		';
-	}
-	html += '</div>';
-	return html;
-
+	$('#the_connection_history').html(html);
 }
-
-
-
-// for congrats page
-function editStory()
-{
-	if (connections.length==0)
-		return;
-	connections[connections.length-1].story = $('#input-story').val();
-}
-$('#input-story').change(editStory);
-
-
-function buttonCongratsDone()
-{
-	show('profile');
-}
-$('#button-congrats-done').click(buttonCongratsDone);
 
 
 	

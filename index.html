@@ -25,15 +25,16 @@
 				<div><a href="#" id="button-create-potential">(create)</a></div>
 				<div class ="profile_info_tr">
 					<div class ="profile_info_tb avatar">
+						<img class="avatar" id="my_avatar"/>
 					</div>
 					<div class ="profile_info_tb info">
-						<div class="secret_name">Secret Name: <span id="text_name"/>
+						<div class="secret_name"><span id="text_name"></span>
 						</div> 
-						<div class="physical_trait"> Physical Trait: <span id="text_physical_trait"/>
+						<div class="physical_trait"><span id="text_physical_trait"></span>
 						</div>
-						<div class="personal_trait"> Personal Trait: <span id="text_personal_trait"/>
+						<div class="personal_trait"><span id="text_personal_trait"></span>
 						</div>
-						<div class="phrase"> My Secret Phrase: <span id="text_phrase"/>
+						<div class="phrase">&quot;<span id="text_phrase"></span>&quot;
 						</div> 
 					</div>
 				</div>
@@ -69,7 +70,6 @@
 			<!-- example -->
 			<div class="potential_connection">
 				<img class="avatar" />
-				<p class="name">Name</p>
 				<p class="physical_trait">Physical trait</p>
 				<p class="personal_trait">Personal trait</p>
 			</div>
@@ -82,7 +82,7 @@
 			<h2>You've made a connection</h2>
 			<div id="the_connection">
 				<div class="connection">
-					<img class="avatar"/>
+					<img class="avatar" width="150" height="150"/>
 					<p class="name">Name</p>
 					<p class="phrase">Phrase</p>
 					<textarea class="connection_story_editor" id="connection_story_editor"></textarea>
@@ -103,6 +103,7 @@
 	</div>
 
 	<script src="_js/jquery-2.0.3.js"></script>
+	<script src="_js/jquery-ui.js"></script>
 	<script src="_js/script.js"></script>
 </body>
 </html>

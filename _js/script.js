@@ -124,8 +124,10 @@ function createUser(name, physicalTrait, personalTrait, photo, secretPhrase, pas
 	console.log(user);
 	gUsers.push(user);
 }
-createUser('Colonel Mustard', "Six foot short hair.", "Likes talking bollocks", '', 'The cuckoo flies high', 'password');
-createUser('Professor plum', "purple jumper", "enjoys fruit", '', 'I like crumble', 'password');
+createUser('Charlotte Lasagna', "Freckles", "Appreciates sarcasm", '_images/images-4.jpg', 'Fireflies dance underground', 'password');
+createUser('Pieface', "Tall", "Unedited talking", '_images/images-2.jpg', 'November is always cold', 'password');
+createUser('Jailbird', "Chocolate hazel", "Dreamer", '_images/images-1.jpg', 'The bees have brought the honey', 'password');
+createUser('Reve Maroon', "Short fingers", "Optimistic", '_images/images-3.jpg', 'The moon flew away', 'password');
 
 
 // returns whether we have previously connected with a user
@@ -191,7 +193,6 @@ function updateMyPotentialConnections()
 		html += '\
 		<div class="potential_connection">\
 			<img class="avatar" src="'+p.targetUser.photo+'"/>\
-			<p class="name">'+p.targetUser.name+'</p>\
 			<p class="physical_trait">'+p.targetUser.physicalTrait+'</p>\
 			<p class="personal_trait">'+p.targetUser.personalTrait+'</p>\
 		</div>\
@@ -229,7 +230,7 @@ function linkSignIn()
 	if (gCurrentUser == null)
 	{
 		console.log('signin failed');
-		$('#label-bad-password').show();
+		$('#label-bad-password').slideDown({'duration':250, 'easing':'easeOutCubic'});
 	}
 	else
 	{
@@ -248,6 +249,7 @@ function updateProfileElements()
 		$('#text_personal_trait').html('');
 		$('#text_phrase').html('');
 		$('#text_score').html('');
+		$('#my_avatar').attr('src', '');
 	}
 	else
 	{
@@ -257,6 +259,7 @@ function updateProfileElements()
 		$('#text_personal_trait').html(gCurrentUser.personalTrait);
 		$('#text_phrase').html(gCurrentUser.secretPhrase);
 		$('#text_score').html(gCurrentUser.score);
+		$('#my_avatar').attr('src', gCurrentUser.photo);
 	}
 }
 
@@ -332,9 +335,9 @@ function enterSecretPhrase()
 	}
 	else
 	{
-		$('#label-bad-secret-phrase').show();
+		$('#label-bad-secret-phrase').slideDown({'duration':250, 'easing':'easeOutCubic'});
 		setTimeout(function() {
-			$('#label-bad-secret-phrase').hide();
+			$('#label-bad-secret-phrase').slideUp({'duration':250, 'easing':'easeOutCubic'});
 		}, 2000);
 	}
 }
@@ -357,6 +360,7 @@ function updateHistoryPage()
 	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
 	$('#link-phrase_found').on('click', function(e){
 		$('#phrase_found').hide();
+		$('#input-heard-phrase').val('');
 		$('#secret_phrase').show();
 	});
 	$('#btn-enter-secret-phrase').on('click', function(e){enterSecretPhrase(); e.preventDefault();});

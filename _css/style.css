@@ -77,3 +77,13 @@ body {
 
 #page_congrats h2 {
   text-align: center; }
+
+
+/* hide elements */
+#potential_connection_alert, 
+#page_potential_connections, 
+#page_congrats,
+#label-bad-password,
+#page_history {
+  display: none;
+}

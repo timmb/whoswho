@@ -1,76 +1,107 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" media="all" href="_css/style.css">
-	</head>
-	<body>
-		<div id ="signin_page">
-			<div class="container">
-		      <form class="form-signin">
-		        <h2 class="form-signin-heading">Who's Who Login</h2>
-		        <input id='input-login' type="text" class="form-control" placeholder="Secret Name" autofocus="">
-		        <input id='input-password' type="password" class="form-control" placeholder="Password">
-		        <button id='link-sign-in' class="btn btn-lg btn-primary btn-block" onclick="return false;">Sign in</button>
-		      </form>
-		      <div id="label-bad-password">Username or password not recognised.</div>
-		    </div>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" media="all" href="_css/style.css">
+</head>
+<body>
+	<div id ="signin_page">
+		<div class="container">
+			<form class="form-signin">
+				<h2 class="form-signin-heading">Who's Who Login</h2>
+				<input id='input-login' type="text" class="form-control" placeholder="Secret Name" autofocus="">
+				<input id='input-password' type="password" class="form-control" placeholder="Password">
+				<button id='link-sign-in' class="btn btn-lg btn-primary btn-block" onclick="return false;">Sign in</button>
+			</form>
+			<div id="label-bad-password">Username or password not recognised.</div>
 		</div>
-		<div id = "profile">
-			<div class="container">
-				<div class = "profile_info">
-					<div class ="profile_info_tr">
-						<div class ="profile_info_tb avatar">
+	</div>
+
+
+	<div id = "profile">
+		<div class="container">
+			<div class = "profile_info">
+				<div><a href="#" id="button-create-potential">(create)</a></div>
+				<div class ="profile_info_tr">
+					<div class ="profile_info_tb avatar">
+					</div>
+					<div class ="profile_info_tb info">
+						<div class="secret_name">Secret Name: <span id="text_name"/>
+						</div> 
+						<div class="physical_trait"> Physical Trait: <span id="text_physical_trait"/>
 						</div>
-						<div class ="profile_info_tb info">
-							<div class="secret_name">Secret Name: <span id="text_name"/>
-							</div> 
-							<div class="physical_trait"> Physical Trait: <span id="text_physical_trait"/>
-							</div>
-							<div class="personal_trait"> Personal Trait: <span id="text_personal_trait"/>
-							</div>
-							<div class="phrase"> My Secret Phrase: <span id="text_phrase"/>
-							</div> 
+						<div class="personal_trait"> Personal Trait: <span id="text_personal_trait"/>
 						</div>
+						<div class="phrase"> My Secret Phrase: <span id="text_phrase"/>
+						</div> 
 					</div>
 				</div>
-				<div class = "score_info">
-					<h2>Current Score : <span id="text_score" class="current_score"></span></h2>
-				</div>
-				<div class = "btn-container" id="phrase_found">
-					 <button id='link-phrase_found' class="btn btn-lg btn-primary btn-block">Found a Phrase</button>
-				</div>
-				<div id = "secret_phrase">
-					 <form class="form-signin">
-				        <h2 class="form-signin-heading">What secret phrase have you found?</h2>
-				        <input id="input-heard-phrase" type="text" class="form-control" placeholder="" autofocus="">
-				        <button id="btn-enter-secret-phrase" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-				      </form>
-				      <div id="label-bad-secret-phrase" class ="conn_incorrect">Sorry incorrect phrase</div>
-				</div>
-				<div class = "btn-container connection_history">
-					 <button class="btn btn-lg btn-primary btn-block" type="submit">My Connections</button>
-				</div>
-				<div class = "connections">
-				</div>
+			</div>
+			<div class = "score_info">
+				<h2>Current Score : <span id="text_score" class="current_score"></span></h2>
+			</div>
+			<div id="potential_connection_alert"><a href="#" id="link_potential_connections">You have <span class="potential_connection_number">0</span> potential connections.</a></div>
+			<div class = "btn-container" id="phrase_found">
+				<button id='link-phrase_found' class="btn btn-lg btn-primary btn-block">Found a Phrase</button>
+			</div>
+			<div id = "secret_phrase">
+				<form class="form-signin">
+					<h2 class="form-signin-heading">What secret phrase have you found?</h2>
+					<input id="input-heard-phrase" type="text" class="form-control" placeholder="" autofocus="">
+					<button id="btn-enter-secret-phrase" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+				</form>
+				<div id="label-bad-secret-phrase" class ="conn_incorrect">Sorry incorrect phrase</div>
+			</div>
+			<div class = "btn-container connection_history">
+				<button class="btn btn-lg btn-primary btn-block button_show_history">My Connections</button>
+			</div>
+			<div class = "connections">
 			</div>
 		</div>
-		<div id ="page_congrats">
-			<div class="container">
-				<h2>You've made a connection</h2>
-				<div class="conn_avtar">
-				</div>
-				<div class="conn_name">
-				</div>
+	</div>
+
+
+	<div id="page_potential_connections">
+		<p class="back"><a href="#" id="link_potential_connections_back">Back</a></p>
+		<h2>There are <span class="potential_connection_number">0</span> potential connections in your area</h2>
+		<div id="list_of_potential_connections">
+			<!-- example -->
+			<div class="potential_connection">
+				<img class="avatar" />
+				<p class="name">Name</p>
+				<p class="physical_trait">Physical trait</p>
+				<p class="personal_trait">Personal trait</p>
 			</div>
 		</div>
-		<div class = "connection_made">
-			<div class="container">
-				
+	</div>
+
+
+	<div id ="page_congrats">
+		<div class="container">
+			<h2>You've made a connection</h2>
+			<div id="the_connection">
+				<div class="connection">
+					<img class="avatar"/>
+					<p class="name">Name</p>
+					<p class="phrase">Phrase</p>
+					<textarea class="connection_story_editor" id="connection_story_editor"></textarea>
+				</div>
 			</div>
+							<p class="back"><a href="#" id="link_congrats_back">Done</a></p>
+
 		</div>
-		<script src="_js/jquery-2.0.3.js"></script>
-		<script src="_js/script.js"></script>
-	</body>
+	</div>
+
+
+
+
+	<div id="page_history">
+		<p class="back"><a href="#" id="link_history_back">Back</a></p>
+
+	</div>
+
+	<script src="_js/jquery-2.0.3.js"></script>
+	<script src="_js/script.js"></script>
+</body>
 </html>

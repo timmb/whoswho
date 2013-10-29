@@ -8,14 +8,14 @@ var gUsers = [
 ];
 
 var gConnections = 
-{
+[
 	// { datetime, location, firstUser, secondUser, passPhrase, story }
-}
+];
 
 var gPotentialConnections = 
-{
-	// { datetime, notifiedUser, [targetUserNames] }
-}
+[
+	// { datetime, notifiedUser, targetUser }
+];
 
 var gCurrentUser = null;
 
@@ -37,9 +37,9 @@ console.log("page load");
 // button-enter-secret-phrase
 // input-story
 // button-congrats-done
-// button-history
-// page-history
-// page-potential <-- notification page
+// .button_show_history
+// page_history
+// page_potential_connections <-- notification page
 // button-create-potential
 
 var elements = [
@@ -47,6 +47,8 @@ var elements = [
 	'profile',
 	'conn_correct',
 	'page_congrats',
+	'page_history',
+	'page_potential_connections',
 ];
 
 
@@ -81,6 +83,7 @@ function createUser(name, physicalTrait, personalTrait, photo, secretPhrase, pas
 	gUsers.push(user);
 }
 createUser('Colonel Mustard', "Six foot short hair.", "Likes talking bollocks", '', 'The cuckoo flies high', 'password');
+createUser('Professor plum', "purple jumper", "enjoys fruit", '', 'I like crumble', 'password');
 
 
 function createPotentialConnections()
@@ -91,18 +94,57 @@ function createPotentialConnections()
 	{
 		if (gUsers[i] != gCurrentUser && Math.random() < 0.7)
 		{
-			targets.push(gUsers[i]);
+			p = {
+				'datetime': (new Date()).getTime(),
+				'notifiedUser': gCurrentUser,
+				'targetUser': gUsers[i],
+			};
+			gPotentialConnections.push(p);
 		}
 	}
-	p = {
-		'datetime': getTime(),
-		'notifiedUser': gCurrentUser,
-		'targetUsers': targets,
-	};
-	gPotentialConnections.push(p);
-	show('page-potential');
+	updateMyPotentialConnections();
 }
 $('#button-create-potential').click(createPotentialConnections);
+
+
+// Check if I have any potential connections and show notification
+// if I do.
+function updateMyPotentialConnections()
+{
+	var myPotentials = [];
+	for (var i=0; i<gPotentialConnections.length; i++)
+	{
+		var notified = gPotentialConnections[i].notifiedUser;
+		if (notified == gCurrentUser)
+		{
+			myPotentials.push(gPotentialConnections[i]);
+		}
+	}
+	$('.potential_connection_number').html(myPotentials.length);
+	var html = ''
+	for (var i=0; i<myPotentials.length; i++)
+	{
+		var p = myPotentials[i];
+		html += '\
+		<div class="potential_connection">\
+			<img class="avatar" src="'+p.targetUser.photo+'"/>\
+			<p class="name">'+p.targetUser.name+'</p>\
+			<p class="physical_trait">'+p.targetUser.physicalTrait+'</p>\
+			<p class="personal_trait">'+p.targetUser.personalTrait+'</p>\
+		</div>\
+		'
+	}
+	$('#list_of_potential_connections').html(html);
+	if (myPotentials.length > 0)
+	{
+
+		$('#potential_connection_alert').show();
+	}
+	else
+	{
+		$('#potential_connection_alert').hide();
+	}
+}
 
 
 function linkSignIn()
@@ -110,7 +152,7 @@ function linkSignIn()
 	console.log("linksignin");
 	var login = $('#input-login').val();
 	var password = $('#input-password').val();
-	var gCurrentUser = null;
+	gCurrentUser = null;
 	console.log('entered login and password '+login+' '+password);
 	for (var i=0; i<gUsers.length; i++)
 	{
@@ -170,6 +212,7 @@ function enterSecretPhrase()
 	var heardPhrase = $('#input-heard-phrase').val();
 	var actualPhrase = null;
 	var matchedUser = null;
+	var matchedPotentialIndex = -1;
 
 	// search potential connections
 	for (var i=0; i<gPotentialConnections.length; i++)
@@ -178,44 +221,46 @@ function enterSecretPhrase()
 		if (p.notifiedUser == gCurrentUser)
 		{
 			// search target users
-			for (var j=0; j<p.targetUsers.length; j++)
-			{
-				var target = p.targetUsers[j];
+				var target = p.targetUser;
 				if (target.secretPhrase.toLowerCase() == heardPhrase.toLowerCase())
 				{
 					matchedUser = target;
 					actualPhrase = target.secretPhrase;
+					matchedPotentialIndex = i;
 				}
-			}
 		}
-		else
+		else if (p.targetUser == gCurrentUser)
 		{
 			// check if our user is a target and we heard the notified user secret phrase
-			for (var j=0; j<p.targetUserNames.length; j++)
-			{
-				if (p.targetUsers[j] == gCurrentUser 
+				if (p.targetUsers == gCurrentUser 
 					&& p.notifiedUser.secretPhrase.toLowerCase() == heardPhrase.toLowerCase())
 				{
 					matchedUser = p.notifiedUser;
 					actualPhrase = p.notifiedUser.secretPhrase;
+					matchedPotentialIndex = i;
 				}
-			}
 
 		}
 	}
 	if (matchedUser != null)
 	{
 		gCurrentUser.score += 1;
-		matchedUser +=1;
+		matchedUser.score +=1;
 		connection = {
-			'datetime': gettime(), 
+			'datetime': (new Date()).getTime(), 
 			'location': null, 
 			'firstUser': gCurrentUser, 
 			'secondUser': matchedUser, 
 			'passPhrase': actualPhrase, 
 			'story': '', 
 		};
+		console.log('created connection secondUser '+connection.secondUser);
 		gConnections.push(connection);
+		gPotentialConnections.splice(matchedPotentialIndex, matchedPotentialIndex+1);
+		updateMyPotentialConnections();
+		// update congrats page
+		$('#the_connection').html(createConnectionHtml(connection, true));
+		$('#connect_story_editor').change(function() { connection.story = $('#connection_story_editor').val();});
 		show('page_congrats');
 	}
 	else
@@ -225,6 +270,35 @@ function enterSecretPhrase()
 			$('#label-bad-secret-phrase').hide();
 		}, 2000);
 	}
+}
+
+
+function createConnectionHtml(connection, isStoryEditable)
+{
+	var u = connection.secondUser;
+	console.log('create connections for user:');
+	console.log(u);
+	var html = '\
+	<div class="connection">\
+		<img class="avatar" src="'+u.photo+'"/>\
+		<p class="name">'+u.name+'</p>\
+		<p class="phrase">'+u.secretPhrase+'</p>\
+';
+	if (isStoryEditable)
+	{
+		html += '\
+	<textarea class="connection_story_editor" id="connection_story_editor" placeholder="Describe how you met '+u.name+'"></textarea>\
+		';
+	}
+	else
+	{
+		html += '\
+		<p class="story">'+connection.story+'</p>\
+		';
+	}
+	html += '</div>';
+	return html;
+
 }
 
 
@@ -246,30 +320,23 @@ function buttonCongratsDone()
 $('#button-congrats-done').click(buttonCongratsDone);
 
 
-function buttonHistory()
-{
-	show('page-history');
-}
-$('#button-history').click(buttonHistory);
-
-// var hidden = ['profile','conn_correct','secret_phrase'];
-
-// for (var i=0; i<hidden.length; i++)
-// {
-// 	$('#'+hidden[i]).hide();
-// }
-
-
 	
 	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
 	$('#link-phrase_found').on('click', function(e){
 		$('#phrase_found').hide();
 		$('#secret_phrase').show();
 	});
-	$('#btn-enter-secret-phrase').on('click', function(e){enterSecretPhrase();});
+	$('#btn-enter-secret-phrase').on('click', function(e){enterSecretPhrase(); e.preventDefault();});
+	$('#link_potential_connections').on('click', function(e) { show('page_potential_connections'); e.preventDefault();});
+	$('#link_potential_connections_back').on('click', function(e) { show('profile'); e.preventDefault();});
+	$('.button_show_history').on('click', function(e) { show('page_history'); e.preventDefault();});
+	$('#link_history_back').on('click', function(e) { show('profile'); e.preventDefault();});
+	$('#link_congrats_back').on('click', function(e) { show('profile'); e.preventDefault(); });
 
 show('signin_page');
-console.log('Page loaded.'); 
-});
+console.log('Page loaded.');
 
+
+});
+console.log('asdf');
 

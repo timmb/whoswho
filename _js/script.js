@@ -54,10 +54,14 @@ function show(element_id)
 {
 	for (var i=0; i<elements.length; i++)
 		$('#'+elements[i]).hide();
+	if (element_id=='profile')
+	{
+		updateProfileElements();
+	}
 	$('#'+element_id).show();
 	console.log("showed "+element_id);
 	$('#secret_phrase').hide();
-	$('#bad_password').hide();
+	$('#label-bad-password').hide();
 }
 
 
@@ -120,18 +124,34 @@ function linkSignIn()
 	if (gCurrentUser == null)
 	{
 		console.log('signin failed');
-		show('label-bad-password');
+		$('#label-bad-password').show();
 	}
 	else
 	{
 		console.log('signin successful');
 		$('#label-bad-password').hide();
+		show('profile');
+	}
+}
+
+function updateProfileElements()
+{
+	if (gCurrentUser==null)
+	{
+		$('#text_name').html('');
+		$('#text_physical_trait').html('');
+		$('#text_personal_trait').html('');
+		$('#text_phrase').html('');
+		$('#text_score').html('');
+	}
+	else
+	{
 		// populate home page
 		$('#text_name').html(gCurrentUser.name);
 		$('#text_physical_trait').html(gCurrentUser.physicalTrait);
 		$('#text_personal_trait').html(gCurrentUser.personalTrait);
 		$('#text_phrase').html(gCurrentUser.secretPhrase);
-		show('profile');
+		$('#text_score').html(gCurrentUser.score);
 	}
 }
 
@@ -142,6 +162,8 @@ function linkSignUp()
 	$('#page-sign-up').show();
 }
 $('#link-sign-up').click(linkSignUp);
+
+
 
 function enterSecretPhrase()
 {
@@ -237,14 +259,17 @@ $('#button-history').click(buttonHistory);
 // 	$('#'+hidden[i]).hide();
 // }
 
-show('signin_page');
 
 	
 	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
 	$('#link-phrase_found').on('click', function(e){
-		$('.phrase_found').hide();
-		$('.secret_phrase').show();
+		$('#phrase_found').hide();
+		$('#secret_phrase').show();
 	});
 	$('#btn-enter-secret-phrase').on('click', function(e){enterSecretPhrase();});
-	console.log('asd'); 
+
+show('signin_page');
+console.log('Page loaded.'); 
 });
+
+

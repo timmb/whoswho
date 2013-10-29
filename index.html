@@ -14,6 +14,7 @@
 		        <input id='input-password' type="password" class="form-control" placeholder="Password">
 		        <button id='link-sign-in' class="btn btn-lg btn-primary btn-block" onclick="return false;">Sign in</button>
 		      </form>
+		      <div id="label-bad-password">Username or password not recognised.</div>
 		    </div>
 		</div>
 		<div id = "profile">
@@ -35,18 +36,18 @@
 					</div>
 				</div>
 				<div class = "score_info">
-					<h2>Current Score : <span class="current_score">8</span></h2>
+					<h2>Current Score : <span id="text_score" class="current_score"></span></h2>
 				</div>
-				<div class = "btn-container phrase_found">
-					 <button id='link-phrase_found' class="btn btn-lg btn-primary btn-block" type="submit">Found a Phrase</button>
+				<div class = "btn-container" id="phrase_found">
+					 <button id='link-phrase_found' class="btn btn-lg btn-primary btn-block">Found a Phrase</button>
 				</div>
-				<div class = "secret_phrase">
+				<div id = "secret_phrase">
 					 <form class="form-signin">
 				        <h2 class="form-signin-heading">What secret phrase have you found?</h2>
 				        <input id="input-heard-phrase" type="text" class="form-control" placeholder="" autofocus="">
 				        <button id="btn-enter-secret-phrase" class="btn btn-lg btn-primary btn-block" onclick="return false;">Submit</button>
 				      </form>
-				      <div class ="conn_incorrect">Sorry invalid phrase</div>
+				      <div id="label-bad-secret-phrase" class ="conn_incorrect">Sorry incorrect phrase</div>
 				</div>
 				<div class = "btn-container connection_history">
 					 <button class="btn btn-lg btn-primary btn-block" type="submit">My Connections</button>

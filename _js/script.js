@@ -32,7 +32,7 @@ console.log("page load");
 // link-sign-up
 // page-sign-up
 // input-heard-phrase
-// page-congrats
+// page_congrats
 // label-bad-secret-phrase
 // button-enter-secret-phrase
 // input-story
@@ -46,6 +46,7 @@ var elements = [
 	'signin_page',
 	'profile',
 	'conn_correct',
+	'page_congrats',
 ];
 
 
@@ -193,7 +194,7 @@ function enterSecretPhrase()
 			'story': '', 
 		};
 		gConnections.push(connection);
-		show('page-congrats');
+		show('page_congrats');
 	}
 	else
 	{
@@ -229,13 +230,14 @@ function buttonHistory()
 }
 $('#button-history').click(buttonHistory);
 
-var hidden = ['profile','conn_correct','secret_phrase'];
+// var hidden = ['profile','conn_correct','secret_phrase'];
 
-for (var i=0; i<hidden.length; i++)
-{
-	$('#'+hidden[i]).hide();
-}
+// for (var i=0; i<hidden.length; i++)
+// {
+// 	$('#'+hidden[i]).hide();
+// }
 
+show('signin_page');
 
 	
 	$('#link-sign-in').on('click', function(e) {linkSignIn(); e.preventDefault(); return false;});
